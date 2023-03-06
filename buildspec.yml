@@ -1,0 +1,20 @@
+version: 0.2
+phases:
+  pre_build:
+    commands:
+      - echo "we are on pre-build stage."
+  build:
+    commands:
+      - echo "we are on build stage."
+      - mvn clean
+  post_build:
+    commands:
+      - echo we are on post-build stage.
+      - echo packaging war file
+      - mvn install
+      - echo moving war file from target to root directory.
+      - mv target/spring-https-v1.0.0.jar spring-https-v1.0.0.jar
+      - echo war moved successfully.
+artifacts:
+  files:
+    - complete-reference-spring-app-1.0.0.jar

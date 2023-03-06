@@ -1,0 +1,24 @@
+extend type Query {
+    users: UserOperations
+}
+
+extend type Mutation {
+    users: UserOperations
+}
+type UserOperations {
+    get: [User]
+    getById(uid: ID!): User
+    post(user: UserInput!): User
+#    put(user: UserInput): User
+#    delete(user: UserInput): Boolean
+#    delete(uid: ID): Boolean
+}
+type User {
+    uid: ID
+    name: String
+    email: String
+}
+input UserInput {
+    name: String!
+    email: String!
+}

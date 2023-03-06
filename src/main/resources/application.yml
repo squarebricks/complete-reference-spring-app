@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: spring-graphql-validation
+  profiles:
+    active: ${RUN_ENVIRONMENT:local}, h2
+  graphql:
+    graphiql:
+      enabled: true
+      path: /graphiql
+

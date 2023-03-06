@@ -1,0 +1,27 @@
+spring:
+  security:
+    user:
+      name: user
+      password: user
+
+logging:
+  file:
+    name: ./logs/local/app-local.log
+    max-file-size: 10MB
+  level:
+    org:
+      springframework:
+        security: DEBUG
+      hibernate:
+        SQL: DEBUG
+        orm.jdbc.bind: TRACE
+
+server:
+  port: 8443
+  ssl:
+    enabled: true
+    key-alias: spring-https
+    key-store: classpath:spring-https.p12
+    key-store-type: PKCS12
+    key-password: password
+    key-store-password: password

@@ -1,0 +1,32 @@
+spring:
+  security:
+    user:
+      name: user
+      password: user
+      roles:
+        - USER
+        - ADMIN
+  jpa:
+    open-in-view: false
+    generate-ddl: 'true'
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        format_sql: 'true'
+      jakarta:
+        persistence:
+          sharedCache:
+            mode: ALL
+    database: default
+    show-sql: 'true'
+  datasource:
+    username: ${DB_USERNAME:sa}
+    password: ${DB_PASSWORD:sa}
+    url: jdbc:h2:mem:mydb
+    driver-class-name: org.h2.Driver
+    generate-unique-name: 'false'
+    continue-on-error: 'false'
+    initialize: 'false'
+  h2:
+    console:
+      enabled: 'true'
