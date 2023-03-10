@@ -3,6 +3,8 @@ spring:
     user:
       name: user
       password: user
+      roles:
+        - CRSA_USER_WRITE
 
 logging:
   file:
@@ -17,6 +19,8 @@ logging:
         orm.jdbc.bind: TRACE
 
 server:
+  http2:
+    enabled: true
   port: 8443
   ssl:
     enabled: true

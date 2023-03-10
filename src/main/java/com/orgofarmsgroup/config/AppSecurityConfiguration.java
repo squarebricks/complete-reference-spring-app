@@ -13,7 +13,7 @@ public class AppSecurityConfiguration {
                 .authorizeHttpRequests()
                 .anyRequest().authenticated()
                 .and()
-                .httpBasic()
+                .formLogin()
                 .and()
                 .build();
     }
