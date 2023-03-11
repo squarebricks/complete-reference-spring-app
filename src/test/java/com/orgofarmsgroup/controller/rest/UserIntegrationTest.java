@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @Slf4j
 @ActiveProfiles(profiles = {"unit-test"})
-class UserControllerIntegrationTest {
+class UserIntegrationTest {
     private MockMvc mockMvc;
 
     @Autowired
