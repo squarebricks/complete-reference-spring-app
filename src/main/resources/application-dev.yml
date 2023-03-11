@@ -1,3 +1,15 @@
+spring:
+  security:
+    user:
+      name: user
+      password: user
+      roles:
+        - CRSA_USER_WRITE
+  data:
+    redis:
+      host: ${REDIS_HOST}
+      port: ${REDIS_PORT}
+
 server:
   http2:
     enabled: true

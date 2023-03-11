@@ -12,7 +12,7 @@ import org.springframework.graphql.test.tester.GraphQlTester;
 @SpringBootTest
 @AutoConfigureGraphQlTester
 @Slf4j
-class UserGraphQLControllerIntegrationTest {
+class UserGraphQLIntegrationTest {
     @Autowired
     private GraphQlTester graphQlTester;
     

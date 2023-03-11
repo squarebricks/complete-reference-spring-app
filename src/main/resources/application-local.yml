@@ -3,8 +3,10 @@ spring:
     user:
       name: user
       password: user
-      roles:
-        - CRSA_USER_WRITE
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
 
 logging:
   file:
