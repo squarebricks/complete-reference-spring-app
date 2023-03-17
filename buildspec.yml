@@ -13,7 +13,7 @@ phases:
       - echo packaging war file
       - mvn install
       - echo moving war file from target to root directory.
-      - mv target/spring-https-v1.0.0.jar spring-https-v1.0.0.jar
+      - mv target/complete-reference-spring-app-1.0.0.jar complete-reference-spring-app-1.0.0.jar
       - echo war moved successfully.
 artifacts:
   files:

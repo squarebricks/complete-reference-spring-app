@@ -7,4 +7,6 @@ spring:
     graphiql:
       enabled: true
       path: /graphiql
+  messages:
+    basename: internationalization/messages
 
