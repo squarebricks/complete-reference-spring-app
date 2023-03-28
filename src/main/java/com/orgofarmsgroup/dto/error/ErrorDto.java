@@ -22,6 +22,7 @@ public class ErrorDto implements Serializable {
 
     private String message;
     private Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+    @Serial
     private Object errors;
     private String additionalInfo = "";
     private int statusCode = HttpStatus.BAD_REQUEST.value();
