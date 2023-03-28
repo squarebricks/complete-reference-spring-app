@@ -3,15 +3,14 @@ package com.orgofarmsgroup.config;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.orgofarmsgroup.exception.AppException;
 import com.orgofarmsgroup.util.MultipartGraphQlRequest;
 import com.orgofarmsgroup.util.MultipartVariableMapper;
 import jakarta.servlet.ServletException;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.graphql.server.WebGraphQlHandler;
 import org.springframework.graphql.server.WebGraphQlRequest;
-import org.springframework.graphql.server.webmvc.GraphQlHttpHandler;
 import org.springframework.http.MediaType;
 import org.springframework.util.AlternativeJdkIdGenerator;
 import org.springframework.util.Assert;
@@ -27,6 +26,7 @@ import java.util.*;
 
 import static org.springframework.http.MediaType.MULTIPART_FORM_DATA;
 
+@Slf4j
 public class GraphqlMultipartHandler {
     private final WebGraphQlHandler graphQlHandler;
 
@@ -39,10 +39,8 @@ public class GraphqlMultipartHandler {
         this.objectMapper = objectMapper;
     }
 
-    public static final List<MediaType> SUPPORTED_RESPONSE_MEDIA_TYPES =
-            Arrays.asList(MediaType.APPLICATION_GRAPHQL, MediaType.APPLICATION_JSON, MULTIPART_FORM_DATA);
-
-    private static final Log logger = LogFactory.getLog(GraphQlHttpHandler.class);
+    protected static final List<MediaType> SUPPORTED_RESPONSE_MEDIA_TYPES =
+            Arrays.asList(MediaType.APPLICATION_GRAPHQL_RESPONSE, MediaType.APPLICATION_JSON, MULTIPART_FORM_DATA);
 
     private final IdGenerator idGenerator = new AlternativeJdkIdGenerator();
 
@@ -87,14 +85,14 @@ public class GraphqlMultipartHandler {
                 serverRequest.uri(), serverRequest.headers().asHttpHeaders(),
                 this.idGenerator.generateId().toString(), LocaleContextHolder.getLocale());
 
-        if (logger.isDebugEnabled()) {
-            logger.debug("Executing: " + graphQlRequest);
+        if (log.isDebugEnabled()) {
+            log.debug("Executing: " + graphQlRequest);
         }
 
         Mono<ServerResponse> responseMono = this.graphQlHandler.handleRequest(graphQlRequest)
                 .map(response -> {
-                    if (logger.isDebugEnabled()) {
-                        logger.debug("Execution complete");
+                    if (log.isDebugEnabled()) {
+                        log.debug("Execution complete");
                     }
                     ServerResponse.BodyBuilder builder = ServerResponse.ok();
                     builder.headers(headers -> headers.putAll(response.getResponseHeaders()));
@@ -111,7 +109,7 @@ public class GraphqlMultipartHandler {
             try {
                 return objectMapper.readValue(string.get(), t);
             } catch (JsonProcessingException e) {
-                throw new RuntimeException(e);
+                throw new AppException(e);
             }
         }
         return (T)map;

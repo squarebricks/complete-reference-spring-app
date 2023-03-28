@@ -1,5 +1,6 @@
 package com.orgofarmsgroup.util;
 
+import com.orgofarmsgroup.exception.AppException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -23,7 +24,7 @@ class MultipartVariableMapperTest {
     void testMapVariablePassingVariable() {
         HashMap<String, Object> map = new HashMap<>();
         map.put("file", new Object());
-        assertThrows(RuntimeException.class, () -> {
+        assertThrows(AppException.class, () -> {
             MultipartVariableMapper.mapVariable("variables.file", map, null);
         });
     }
@@ -34,15 +35,15 @@ class MultipartVariableMapperTest {
         HashMap<String, Object> map = new HashMap<>();
         map.put("file", null);
         map.put("other", null);
-        assertThrows(RuntimeException.class, () -> {
+        assertThrows(AppException.class, () -> {
             MultipartVariableMapper.mapVariable("variables.file.other", map, null);
         });
     }
 
     @Test
     @DisplayName(value = "multipart variable mapper: map variable determine mapper throws RE")
-    void testMapVariableDetermineMapperThrowsRuntimeException() {
-        assertThrows(RuntimeException.class, () -> {
+    void testMapVariableDetermineMapperThrowsAppException() {
+        assertThrows(AppException.class, () -> {
             MultipartVariableMapper.mapVariable(
                     "variables.file",
                     null,
@@ -54,9 +55,9 @@ class MultipartVariableMapperTest {
 
 
     @Test
-    @DisplayName(value = "multipart variable mapper: map variable should throw RuntimeException")
-    void testMapVariableShouldThrowRuntimeException() {
-        assertThrows(RuntimeException.class, () -> {
+    @DisplayName(value = "multipart variable mapper: map variable should throw AppException")
+    void testMapVariableShouldThrowAppException() {
+        assertThrows(AppException.class, () -> {
             HashMap<String, Object> map = new HashMap<>();
             MultipartVariableMapper.mapVariable(
                     "",
@@ -64,7 +65,7 @@ class MultipartVariableMapperTest {
                     null
             );
         });
-        assertThrows(RuntimeException.class, () -> {
+        assertThrows(AppException.class, () -> {
             HashMap<String, Object> map = new HashMap<>();
             MultipartVariableMapper.mapVariable(
                     "other_variables.file",

@@ -17,7 +17,7 @@ import java.util.List;
 @Slf4j
 public class AdminController {
     @GetMapping(produces = {"application/json"})
-    public ResponseEntity<List<?>> admins() {
+    public ResponseEntity<List<AdminEntity>> admins() {
         log.info("GET /admins accessed");
         return ResponseEntity.status(HttpStatus.OK).body(
                 List.of(
