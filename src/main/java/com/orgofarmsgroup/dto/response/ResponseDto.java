@@ -32,10 +32,12 @@ public class ResponseDto implements Serializable {
     private HttpServletRequest request;
 
     private Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+    @Serial
     private Object data;
     private String message;
     private int statusCode = HttpStatus.OK.value();
     private String additionalInfo;
+    @Serial
     private Object requestObject;
 
     public ResponseDto(HttpServletRequest request, HttpStatus statusCode, Object data) {
@@ -49,10 +51,10 @@ public class ResponseDto implements Serializable {
         this.requestObject = this.buildRequestObject();
     }
     private Object buildRequestObject(){
-        Map<String, Object> requestObject = new HashMap<>();
-        requestObject.put("requestURL", this.getFullRequestURL());
-        requestObject.put("requestMethod", this.request.getMethod());
-        return requestObject;
+        Map<String, Object> newRequestObject = new HashMap<>();
+        newRequestObject.put("requestURL", this.getFullRequestURL());
+        newRequestObject.put("requestMethod", this.request.getMethod());
+        return newRequestObject;
     }
 
     private String getFullRequestURL(){

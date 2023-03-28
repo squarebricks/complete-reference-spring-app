@@ -1,5 +1,6 @@
 package com.orgofarmsgroup.util;
 
+import lombok.EqualsAndHashCode;
 import org.springframework.graphql.ExecutionGraphQlRequest;
 import org.springframework.graphql.server.WebGraphQlRequest;
 import org.springframework.http.HttpHeaders;
@@ -10,6 +11,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
+@EqualsAndHashCode
 public class MultipartGraphQlRequest extends WebGraphQlRequest implements ExecutionGraphQlRequest {
 
     private final String document;
