@@ -23,7 +23,7 @@ import static org.springframework.http.MediaType.MULTIPART_FORM_DATA;
 @Configuration
 public class GraphqlConfiguration {
 
-    public static final List<MediaType> SUPPORTED_RESPONSE_MEDIA_TYPES =
+    protected static final List<MediaType> SUPPORTED_RESPONSE_MEDIA_TYPES =
             Arrays.asList(MediaType.APPLICATION_GRAPHQL_RESPONSE, MediaType.APPLICATION_JSON, MediaType.MULTIPART_FORM_DATA);
 
     @Bean
