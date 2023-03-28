@@ -5,11 +5,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
@@ -30,10 +30,14 @@ public class AppSecurityConfiguration {
 
     private final PasswordEncoder passwordEncoder;
 
-    private static final String[] WHITE_LIST = {"/graphiql", "/graphql"};
+    private static final String[] WHITE_LIST = {
+            "/css/**", "/js/**", "/images/**",
+            "/", "/index", "/*.html",
+            "/error","/graphiql", "/graphql",
+            "/logout"
+    };
 
     @Bean
-    @Profile(value = {"local"})
     public InMemoryUserDetailsManager users() {
         log.info("setting in-memory-user-details-manager");
         return new InMemoryUserDetailsManager(
@@ -50,7 +54,6 @@ public class AppSecurityConfiguration {
         );
     }
     @Bean
-    @Profile(value = {"local"})
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .csrf(AbstractHttpConfigurer::disable)
@@ -58,10 +61,12 @@ public class AppSecurityConfiguration {
                 .authorizeHttpRequests(auth -> {
                     auth
                             .requestMatchers(WHITE_LIST).permitAll()
+                            .requestMatchers("/admins","/admins/**").hasRole("ADMIN")
                             .anyRequest()
                             .authenticated();
                 })
-                .httpBasic(Customizer.withDefaults())
+                .formLogin(Customizer.withDefaults())
+                .logout(LogoutConfigurer::deleteCookies)
                 .build();
     }
 
