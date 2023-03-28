@@ -1,0 +1,7 @@
+extend type Mutation {
+    files: FileOperations
+}
+
+type FileOperations {
+    upload(file: Upload!): Boolean
+}
