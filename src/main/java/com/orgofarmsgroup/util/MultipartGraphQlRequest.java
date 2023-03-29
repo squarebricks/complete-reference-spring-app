@@ -1,6 +1,7 @@
 package com.orgofarmsgroup.util;
 
 import lombok.EqualsAndHashCode;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.graphql.ExecutionGraphQlRequest;
 import org.springframework.graphql.server.WebGraphQlRequest;
 import org.springframework.http.HttpHeaders;
@@ -11,7 +12,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 public class MultipartGraphQlRequest extends WebGraphQlRequest implements ExecutionGraphQlRequest {
 
     private final String document;
@@ -42,6 +43,7 @@ public class MultipartGraphQlRequest extends WebGraphQlRequest implements Execut
         return fakeBody;
     }
 
+    @NotNull
     @Override
     public String getDocument() {
         return document;
@@ -52,11 +54,13 @@ public class MultipartGraphQlRequest extends WebGraphQlRequest implements Execut
         return operationName;
     }
 
+    @NotNull
     @Override
     public Map<String, Object> getVariables() {
         return variables;
     }
 
+    @NotNull
     @Override
     public Map<String, Object> getExtensions() {
         return extensions;
