@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 public class MultipartGraphQlRequest extends WebGraphQlRequest implements ExecutionGraphQlRequest {
 
     private final String document;
