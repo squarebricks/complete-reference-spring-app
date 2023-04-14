@@ -1,5 +1,7 @@
 package com.orgofarmsgroup.controller.rest;
 
+import com.google.gson.Gson;
+import com.orgofarmsgroup.dto.request.DummyDTO;
 import com.orgofarmsgroup.entity.UserEntity;
 import com.orgofarmsgroup.exception.handler.RestAPIRootExceptionHandler;
 import com.orgofarmsgroup.service.UserService;
@@ -8,7 +10,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
@@ -20,26 +21,28 @@ import java.util.List;
 import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @SpringBootTest
-@AutoConfigureMockMvc
 @Slf4j
-class UserControllerTest {
+class HelloControllerTest {
     private MockMvc mockMvc;
     @MockBean
     private UserService mockedUserService;
 
     @Autowired
-    private UserController userController;
+    private HelloController helloController;
+    @Autowired
+    private Gson jsonHelper;
     @Autowired
     private RestAPIRootExceptionHandler restAPIRootExceptionHandler;
 
     @BeforeEach
     void setup() {
-        mockMvc = MockMvcBuilders.standaloneSetup(userController)
+        mockMvc = MockMvcBuilders.standaloneSetup(helloController)
                 .setControllerAdvice(restAPIRootExceptionHandler)
                 .build();
     }
@@ -47,28 +50,32 @@ class UserControllerTest {
     @Test
     @DisplayName(value = "uc: users : should return list of users")
     void shouldGetListOfUsers() throws Exception {
-        List<UserEntity> staticUsers = new ArrayList<>();
-        staticUsers.add(new UserEntity(101L, "John", "john@email.com"));
-        when(mockedUserService.users()).thenReturn(staticUsers);
+        DummyDTO dummyDTO = new DummyDTO();
+        dummyDTO.setName("John");
+        dummyDTO.setEmail("john@email.com");
 
-        mockMvc.perform(get("/users"))
+        mockMvc.perform(post("/hello")
+                        .contentType("application/json")
+                        .content(jsonHelper.toJson(dummyDTO))
+                )
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.statusCode").value("200"))
-                .andExpect(jsonPath("$.data", hasSize(1)))
-                .andExpect(jsonPath("$.data[0].uid").value("101"))
-                .andExpect(jsonPath("$.data[0].name").value("John"))
-                .andExpect(jsonPath("$.data[0].email").value("john@email.com"))
-                .andExpect(jsonPath("$.requestObject.requestMethod").value("GET"));
+                .andExpect(jsonPath("$.requestObject.requestMethod").value("POST"));
     }
 
     @Test
-    @DisplayName(value = "uc: users: should throw service unavailable")
-    void shouldThrowServiceUnavailable() throws Exception {
-        when(mockedUserService.users()).thenThrow(new RuntimeException("intentionally thrown"));
+    @DisplayName(value = "uc: users : sayHelloWithDummyDTOShouldThrowValidationException")
+    void sayHelloWithDummyDTOShouldThrowValidationException() throws Exception {
+        DummyDTO dummyDTO = new DummyDTO();
+        dummyDTO.setName("B89");
+        dummyDTO.setEmail("john@email.com");
 
-        mockMvc.perform(get("/users"))
+        mockMvc.perform(post("/hello")
+                        .contentType("application/json")
+                        .accept("application/json")
+                        .content(jsonHelper.toJson(dummyDTO))
+                )
                 .andDo(print())
-                .andExpect(status().isServiceUnavailable());
+                .andExpect(status().isBadRequest());
     }
 }

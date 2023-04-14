@@ -33,3 +33,17 @@ server:
     key-store-type: PKCS12
     key-password: password
     key-store-password: password
+
+
+## Spring Boot actuator endpoints
+management:
+  endpoint:
+    health:
+      group:
+        custom:
+          showComponents: always
+          showDetails: always
+  endpoints:
+    web:
+      exposure:
+        include: '*'
