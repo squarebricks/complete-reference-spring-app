@@ -52,14 +52,9 @@ class MultipartVariableMapperTest {
     @Test
     @DisplayName(value = "multipart variable mapper: map variable should throw AppException")
     void testMapVariableShouldThrowAppException() {
-        assertThrows(AppException.class, () -> {
-            HashMap<String, Object> map = new HashMap<>();
-            MultipartVariableMapper.mapVariable(
-                    "",
-                    map,
-                    null
-            );
-        });
+        HashMap<String, Object> map = new HashMap<>();
+        Executable mapVariable = () -> MultipartVariableMapper.mapVariable("", map, null);
+        assertThrows(AppException.class, mapVariable);
     }
 
     @Test
