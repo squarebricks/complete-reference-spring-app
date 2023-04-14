@@ -9,11 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping
 @Slf4j
 public class HomeController{
-    @GetMapping("/")
-    public String index() {
-        log.info("home page accessed");
-        return "index";
-    }
     @GetMapping("/error")
     public String error() {
         log.error("GET /error accessed");

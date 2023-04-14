@@ -57,7 +57,6 @@ class MultipartVariableMapperTest {
         assertThrows(AppException.class, mapVariable);
     }
 
-
     @Test
     @DisplayName(value = "multipart variable mapper: invalid path: map variable should throw AppException")
     void testMapVariableInvalidPathShouldThrowAppException() {
