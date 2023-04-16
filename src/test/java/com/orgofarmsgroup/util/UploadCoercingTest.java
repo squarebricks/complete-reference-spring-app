@@ -6,6 +6,7 @@ import graphql.schema.CoercingSerializeException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,9 +23,8 @@ class UploadCoercingTest {
     @Test
     @DisplayName(value = "upload coercing: serializable() throws  CoercingSerializeException")
     void testSerializableThrows() {
-        assertThrows(CoercingSerializeException.class, () -> {
-            uploadCoercing.serialize(new Object());
-        });
+        Executable executable = () -> uploadCoercing.serialize(new Object());
+        assertThrows(CoercingSerializeException.class, executable);
     }
 
     @Test
@@ -39,17 +39,14 @@ class UploadCoercingTest {
     @Test
     @DisplayName(value = "upload coercing: parseValue() throws CoercingParseValueException")
     void testParseValueThrowsCoercingParseValueException() {
-        assertThrows(CoercingParseValueException.class, () -> {
-            uploadCoercing.parseValue(new Object());
-        });
+        Executable executable = () -> uploadCoercing.parseValue(new Object());
+        assertThrows(CoercingParseValueException.class, executable);
     }
 
     @Test
     @DisplayName(value = "upload coercing: parseLiteral() throws CoercingParseLiteralException")
     void testParseLiteral() {
-        assertThrows(CoercingParseLiteralException.class, () -> {
-            uploadCoercing.parseLiteral(new Object());
-        });
+        Executable executable = () -> uploadCoercing.parseLiteral(new Object());
+        assertThrows(CoercingParseLiteralException.class, executable);
     }
-
 }
