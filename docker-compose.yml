@@ -1,11 +1,59 @@
-version: '3.7'
+version: '3.9'
+
 services:
+  redis-stack:
+    image: redis/redis-stack:latest
+    ports:
+      - "6379:6379"
+      - "8001:8001"
+    volumes:
+      - redis_data:/data
+    networks:
+      - crsa_network
+    restart: always
+
   mysql:
     image: mysql:latest
-    volumes:
-      - ./data/mysql:/var/lib/mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: password
     ports:
       - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+    volumes:
+      - mysql_data:/var/lib/mysql
     restart: always
+    networks:
+      - crsa_network
+
+  rabbitmq:
+    image: rabbitmq:3.11-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    networks:
+      - crsa_network
+    restart: always
+
+volumes:
+  mysql_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: C:/Users/rjanapureddy/Docker/mysql
+      o: bind
+  redis_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: C:/Users/rjanapureddy/Docker/redis-stack
+      o: bind
+  rabbitmq_data:
+    driver: local
+    driver_opts:
+      type: none
+      device: C:/Users/rjanapureddy/Docker/rabbitmq
+      o: bind
+
+networks:
+  crsa_network:
