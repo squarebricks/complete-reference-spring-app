@@ -35,6 +35,22 @@ services:
       - crsa_network
     restart: always
 
+  crsa-app:
+    image: squarebricks/crsa:latest
+    ports:
+      - "8443:8443"
+    environment:
+      REDIS_HOST: redis-stack
+      REDIS_PORT: 6379
+      RABBITMQ_ADDRESSES: rabbitmq
+    restart: always
+    networks:
+      - crsa_network
+    depends_on:
+      - redis-stack
+      - mysql
+      - rabbitmq
+
 volumes:
   mysql_data:
     driver: local
