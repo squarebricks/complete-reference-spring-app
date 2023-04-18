@@ -34,7 +34,8 @@ public class AppSecurityConfiguration {
             "/css/**", "/js/**", "/images/**",
             "/", "/index", "/*.html",
             "/error","/graphiql", "/graphql",
-            "/logout"
+            "/logout",
+            "/messages", "/messages/**"
     };
 
     @Bean
