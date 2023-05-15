@@ -35,6 +35,41 @@ services:
       - crsa_network
     restart: always
 
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - prometheus_data:/etc/prometheus
+    networks:
+      - crsa_network
+
+  grafana:
+    image: grafana/grafana-enterprise
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana_data:/var/lib/grafana
+    networks:
+      - crsa_network
+    depends_on:
+      - prometheus
+
+#  crsa-app:
+#    image: squarebricks/crsa:latest
+#    ports:
+#      - "8443:8443"
+#    environment:
+#      REDIS_HOST: redis-stack
+#      REDIS_PORT: 6379
+#      RABBITMQ_ADDRESSES: rabbitmq
+#    restart: always
+#    networks:
+#      - crsa_network
+#    depends_on:
+#      - redis-stack
+#      - mysql
+#      - rabbitmq
   crsa-app:
     image: squarebricks/crsa:latest
     ports:
@@ -70,6 +105,18 @@ volumes:
       type: none
       device: C:/Users/rjanapureddy/Docker/rabbitmq
       o: bind
+  prometheus_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: C:/Users/rjanapureddy/Docker/prometheus
+  grafana_data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: C:/Users/rjanapureddy/Docker/grafana
 
 networks:
   crsa_network:

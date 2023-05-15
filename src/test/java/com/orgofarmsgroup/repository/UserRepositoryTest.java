@@ -23,8 +23,6 @@ class UserRepositoryTest {
     @Test
     void testFindAll() {
         List<UserEntity> userEntities = repositoryUnderTest.findAll();
-        System.out.println(userEntities);
-
         assertNotNull(userEntities);
     }
 }
