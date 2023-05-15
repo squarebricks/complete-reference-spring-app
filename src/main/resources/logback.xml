@@ -18,10 +18,10 @@
         <appender-ref ref="STDOUT" />
     </root>
 
-    <springProfile name="adhoc | dev | qa | prod">
+    <springProfile name="dev | qa | prod">
         <appender name="ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
             <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-                <fileNamePattern>${LOG_LOCATION}/wkac.%d{yyyy-MM-dd}.${nodename}.log</fileNamePattern>
+                <fileNamePattern>${LOG_LOCATION}/crsa.%d{yyyy-MM-dd}.${NODE_NAME}.log</fileNamePattern>
                 <maxHistory>30</maxHistory>
             </rollingPolicy>
             <encoder>
@@ -38,7 +38,7 @@
     <springProfile name="local">
         <appender name="ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
             <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-                <fileNamePattern>/logs/wkac.%d{yyyy-MM-dd}.log</fileNamePattern>
+                <fileNamePattern>/logs/crsa.%d{yyyy-MM-dd}.log</fileNamePattern>
                 <maxHistory>30</maxHistory>
             </rollingPolicy>
             <encoder>
