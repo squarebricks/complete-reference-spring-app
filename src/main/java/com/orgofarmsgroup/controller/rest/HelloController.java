@@ -31,7 +31,10 @@ public class HelloController {
     }
 
     @PostMapping(produces = {"application/json"})
-    public ResponseEntity<ResponseDto> sayHello(@Valid @RequestBody DummyDTO dummyDTO, HttpServletRequest request) {
+    public ResponseEntity<ResponseDto> sayHello(
+            @Valid @RequestBody DummyDTO dummyDTO,
+            HttpServletRequest request) {
+        log.info("POST /hello");
         ResponseDto responseDto = new ResponseDto(request, HttpStatus.OK, dummyDTO);
         return ResponseEntity.ok().body(responseDto);
     }

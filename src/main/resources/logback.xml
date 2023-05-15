@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>
+                %d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%t][%c{0}:%L] %m%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <springProfile name="local | adhoc | dev">
+        <logger name="org.hibernate.SQL" level="DEBUG" />
+        <logger name="org.springframework.security" level="DEBUG" />
+        <logger name="org.hibernate.orm.jdbc.bind" level="trace" />
+    </springProfile>
+
+    <root level="info">
+        <appender-ref ref="STDOUT" />
+    </root>
+
+    <springProfile name="adhoc | dev | qa | prod">
+        <appender name="ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <fileNamePattern>${LOG_LOCATION}/wkac.%d{yyyy-MM-dd}.${nodename}.log</fileNamePattern>
+                <maxHistory>30</maxHistory>
+            </rollingPolicy>
+            <encoder>
+                <pattern>
+                    %d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%t][%c{0}:%L] %m%n
+                </pattern>
+            </encoder>
+        </appender>
+        <root level="info">
+            <appender-ref ref="ROLLING_FILE" />
+        </root>
+    </springProfile>
+
+    <springProfile name="local">
+        <appender name="ROLLING_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+            <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+                <fileNamePattern>/logs/wkac.%d{yyyy-MM-dd}.log</fileNamePattern>
+                <maxHistory>30</maxHistory>
+            </rollingPolicy>
+            <encoder>
+                <pattern>
+                    %d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%t][%c{0}:%L] %m%n
+                </pattern>
+            </encoder>
+        </appender>
+        <root level="info">
+            <appender-ref ref="ROLLING_FILE" />
+        </root>
+    </springProfile>
+</configuration>

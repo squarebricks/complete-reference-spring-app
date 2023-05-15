@@ -1,14 +1,17 @@
 spring:
   security:
-    user:
-      name: user
-      password: user
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: ${OAUTH2_CLIENT_ID}
+            client-secret: ${OAUTH2_CLIENT_SECRET}
   data:
     redis:
       host: ${REDIS_HOST:localhost}
       port: ${REDIS_PORT:6379}
   rabbitmq:
-    addresses: ${RABBITMQ_ADDRESSES:['localhost:5672']}
+    addresses: "localhost:5672" #${RABBITMQ_ADDRESSES:'localhost:5672'} #['localhost:5672']}
     username: ${RABBITMQ_USERNAME:guest}
     password: ${RABBITMQ_PASSWORD:guest}
 

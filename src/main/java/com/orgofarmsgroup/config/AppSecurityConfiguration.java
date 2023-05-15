@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -30,11 +31,14 @@ public class AppSecurityConfiguration {
 
     private final PasswordEncoder passwordEncoder;
 
-    private static final String[] WHITE_LIST = {
+    private static final String[] HTTP_GET_WHITE_LIST = {
             "/css/**", "/js/**", "/images/**",
             "/", "/index", "/*.html",
             "/error","/graphiql", "/graphql",
-            "/logout",
+            "/logout"
+    };
+
+    private static final String[] HTTP_POST_WHITE_LIST = {
             "/messages", "/messages/**"
     };
 
@@ -61,11 +65,14 @@ public class AppSecurityConfiguration {
                 .cors(Customizer.withDefaults())
                 .authorizeHttpRequests(auth -> {
                     auth
-                            .requestMatchers(WHITE_LIST).permitAll()
+                            .requestMatchers(HttpMethod.GET, HTTP_GET_WHITE_LIST).permitAll()
+                            .requestMatchers("/actuator","/actuator/**").permitAll()
+//                            .requestMatchers(HttpMethod.GET, HTTP_POST_WHITE_LIST).permitAll()
                             .requestMatchers("/admins","/admins/**").hasRole("ADMIN")
                             .anyRequest()
                             .authenticated();
                 })
+                .oauth2Login(Customizer.withDefaults())
                 .formLogin(Customizer.withDefaults())
                 .logout(LogoutConfigurer::deleteCookies)
                 .build();
