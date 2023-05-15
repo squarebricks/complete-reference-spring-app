@@ -35,7 +35,8 @@ public class AppSecurityConfiguration {
             "/css/**", "/js/**", "/images/**",
             "/", "/index", "/*.html",
             "/error","/graphiql", "/graphql",
-            "/logout"
+            "/logout",
+            "/messages", "/messages/**"
     };
 
     private static final String[] HTTP_POST_WHITE_LIST = {
