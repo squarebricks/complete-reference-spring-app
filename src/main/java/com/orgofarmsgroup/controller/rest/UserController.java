@@ -29,9 +29,9 @@ public class UserController {
         try{
             log.info("user controller: users() : accessed");
             if(principal instanceof OAuth2AuthenticationToken token) {
-                System.out.println(jsonHelper.toJson(token));
+                log.info(jsonHelper.toJson(token));
             }else if(principal instanceof UsernamePasswordAuthenticationToken token){
-                System.out.println(jsonHelper.toJson(token));
+                log.info(jsonHelper.toJson(token));
             }
             ResponseDto responseDto = new ResponseDto(request, HttpStatus.OK, userService.users());
             return ResponseEntity.status(HttpStatus.OK).body(responseDto);

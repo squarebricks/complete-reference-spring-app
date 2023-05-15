@@ -25,9 +25,9 @@ public record MessagePublishingController(RabbitTemplate rabbitTemplate, Gson js
     public ResponseEntity<?> publish(@RequestBody CustomMessage customMessage, Principal principal) {
         log.info("publishing message {}", jsonHelper.toJson(customMessage));
         if(principal instanceof OAuth2AuthenticationToken token) {
-            System.out.println(jsonHelper.toJson(token));
+            log.info(jsonHelper.toJson(token));
         }else if(principal instanceof UsernamePasswordAuthenticationToken token){
-            System.out.println(jsonHelper.toJson(token));
+            log.info(jsonHelper.toJson(token));
         }
         customMessage.setUid(UUID.randomUUID().toString());
         customMessage.setCreatedDateTime(new Date());
